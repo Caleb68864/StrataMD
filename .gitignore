@@ -1,0 +1,67 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build output
+main.js
+main.js.map
+styles.css
+*.tsbuildinfo
+dist/
+build/
+out/
+
+# Esbuild metafile
+metafile.json
+
+# Test output
+coverage/
+.nyc_output/
+*.lcov
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# OS / shell
+bash.exe.stackdump
+*.stackdump
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Obsidian dev vault (if symlinked here for testing)
+.obsidian-test-vault/
+
+# Claude / agent tooling
+.claude/
+.claude-terminal/
+forge-project.json
+
+# Internal docs (specs, plans, brainstorms — kept local in personal vault)
+/docs/
+/docs/**
+
+# Misc
+*.tgz
+.cache/
