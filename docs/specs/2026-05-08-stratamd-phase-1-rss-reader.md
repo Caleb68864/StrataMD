@@ -293,7 +293,7 @@ depends_on: ['SS-02']
 ---
 sub_spec_id: SS-06
 phase: run
-depends_on: ['SS-05']
+depends_on: ['SS-02', 'SS-05']
 ---
 
 ### 6. YouTube Adapter (with Plan-B seam)
@@ -328,7 +328,7 @@ depends_on: ['SS-05']
 ---
 sub_spec_id: SS-07
 phase: run
-depends_on: ['SS-05', 'SS-06']
+depends_on: ['SS-02', 'SS-05', 'SS-06']
 ---
 
 ### 7. Feed Discovery Service and Website Autodiscovery Adapter
@@ -509,9 +509,9 @@ depends_on: ['SS-04']
   - `src/components/EmptyStates/NoSelection.tsx`
   - `__tests__/components/DashboardRoot.test.tsx`
   - `__tests__/components/EmptyStates.test.tsx`
+  - `src/components/dashboard.css`
 - **Files (modify):**
   - `src/main.ts`
-  - `src/styles.css`
 - **Acceptance criteria:**
   - `[STRUCTURAL]` `StrataDashboardView` extends `ItemView` and registers `getViewType() === 'stratamd'`. `onOpen` mounts via `createRoot(this.contentEl).render(<StrataProvider><DashboardRoot/></StrataProvider>)`. `onClose` calls `root.unmount()`.
   - `[STRUCTURAL]` `<DashboardRoot>` uses CSS grid (`grid-template-columns`) for the 3-pane layout. Below 900px viewport width, collapses to 2-pane; below 600px, single-pane with tab switcher.
@@ -540,9 +540,7 @@ depends_on: ['SS-12']
   - `src/hooks/useVirtualizedList.ts`
   - `__tests__/components/ItemCard.test.tsx`
   - `__tests__/hooks/useVirtualizedList.test.ts`
-- **Files (modify):**
-  - `src/components/ItemPane.tsx`
-  - `src/components/FeedPane.tsx`
+- **Files (modify):** _(none — `<ItemCard>` and `<FeedCard>` are imported by SS-12's `<ItemPane>` / `<FeedPane>` once SS-13 ships; no Phase-1.5 modify entries pre-flight here)_
 - **Acceptance criteria:**
   - `[STRUCTURAL]` `<ItemCard>` is wrapped in `React.memo`. It subscribes to a single item via `selectItemById(itemId)` and to its read state via `useStrataStore(state => state.userState.readIds.has(itemId))`.
   - `[STRUCTURAL]` `useVirtualizedList` returns the same shape regardless of the underlying virtualization library (so swapping is mechanical).
@@ -570,8 +568,7 @@ depends_on: ['SS-12', 'SS-09']
   - `__tests__/components/preview/ArticlePreview.test.tsx`
   - `__tests__/components/preview/YouTubeEmbed.test.tsx`
   - `__tests__/hooks/usePreviewLoader.test.ts`
-- **Files (modify):**
-  - `src/components/PreviewPane.tsx`
+- **Files (modify):** _(none — preview components are imported by SS-12's `<PreviewPane>` once SS-14 ships; no pre-flight modify here)_
 - **Acceptance criteria:**
   - `[STRUCTURAL]` `<PreviewPane>` routes by `selectedItem.mediaType`: `article` → `<ArticlePreview>`, `video` → `<YouTubeEmbed>`, `bookmark` → `<BookmarkPreview>`.
   - `[STRUCTURAL]` `usePreviewLoader(itemId)` calls `ArticlePreviewService.extract` with an `AbortController` and aborts on selection change before resolution.
@@ -601,7 +598,7 @@ depends_on: ['SS-12']
   - `__tests__/SearchIndex.test.ts`
 - **Files (modify):**
   - `src/components/DashboardRoot.tsx`
-  - `src/components/Toolbar.tsx`
+  _(SS-15 mounts `useKeyboardShortcuts` on the dashboard root and adds `<SearchBar>` to the toolbar via composition; modify of `Toolbar.tsx` is implicit — SS-15 ships `<SearchBar>` and SS-12's toolbar imports it once SS-15 lands. No pre-flight `Toolbar.tsx` modify entry.)_
 - **Acceptance criteria:**
   - `[STRUCTURAL]` `bindings.ts` exports a default binding map covering: `j/k` next/prev item, `n/p` synonyms, `o` open original, `s` save note, `*` star, `r` refresh-current-feed, `R` refresh-all, `/` focus search, `m` mark read, `M` mark feed read, `gg/G` top/bottom, `Esc` clear-selection-or-blur-search.
   - `[STRUCTURAL]` `useKeyboardShortcuts` registers a single `keydown` listener on the dashboard root and dispatches store actions; never reaches into components directly.
@@ -631,7 +628,7 @@ depends_on: ['SS-08', 'SS-11', 'SS-12']
 - **Files (modify):**
   - `src/main.ts`
   - `src/settings.ts`
-  - `src/components/FeedPane.tsx`
+  _(SS-16 also adds a per-feed properties popover that lives next to `<FeedPane>` once SS-12 ships it; SS-12's `<FeedPane>` imports the popover from SS-16 — no pre-flight `FeedPane.tsx` modify entry.)_
 - **Acceptance criteria:**
   - `[STRUCTURAL]` `SettingsTab` renders fields for: refresh tick interval (default 60s), default per-feed interval (default 30min), concurrency cap (default 4), prune-after-days (default 30), auto-mark-read (immediate / 2s dwell / manual; default 2s dwell), suppress all notifications (default off), enable dev mocks (default off in prod, on in dev), Tailwind theme override, font size, preview pane width.
   - `[STRUCTURAL]` Per-feed settings (in feed properties dialog, not main tab): `notifyOnNew` (default false), `pruneAfterDays` override (optional), `category` override.

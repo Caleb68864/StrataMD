@@ -21,6 +21,13 @@ Each entry follows this shape:
 - Watch: Commits using `--no-verify` will escape the log. SS-01 will be the first real code commit and must produce a real entry here.
 - Commit: 46a636a
 
+## 2026-05-08 — Patch master spec for path-validation halt
+- Symptom: First /forge-dark-factory run halted at path-validation with 6 CRITICAL findings (modify-target-missing on src/styles.css, src/components/ItemPane.tsx / FeedPane.tsx / PreviewPane.tsx / Toolbar.tsx) plus 3 coherence BLOCKERs (SS-06/SS-07 missing transitive depends_on SS-02). Zero sub-specs executed; factory auto-merged a no-op (.gitattributes + state.db) into main.
+- Fix: Patched the master spec — added 'SS-02' to SS-06.depends_on and SS-07.depends_on. Removed (modify) entries from SS-13/14/15 (FeedPane, ItemPane, PreviewPane, Toolbar) and SS-16 (FeedPane) since SS-12 creates these files and path-validation can't reason about temporal ordering. Replaced SS-12's modify of src/styles.css with a new src/components/dashboard.css. Added explanatory notes that wiring happens via composition (SS-12's panes import the cards/preview components/popovers from later sub-specs once those land).
+- Surfaces: docs/specs/2026-05-08-stratamd-phase-1-rss-reader.md (SS-06/07 frontmatter, SS-12/13/14/15/16 Files lists)
+- Watch: Workers in SS-13/14/15/16 still need to wire their components into SS-12's panes. The spec body mentions the wiring; the (modify) entries are gone but the worker should still touch the panes. If a worker treats absence-of-modify-entry as "don't touch", we'll have orphan components.
+- Commit: (populated at commit time)
+
 ## 2026-05-08 — Snapshot Phase 1 in-progress build + Phase 1.5 design/spec/phase specs
 - Symptom: Working tree had ~13 of 17 Phase 1 sub-specs partially built (src/services, src/components, src/models, src/store, etc.) plus Phase 1.5 design + master spec + 6 phase specs + redteam-report — none committed since 46a636a. About to launch /forge-dark-factory which would mix this work into the factory's auto-created feature branch.
 - Fix: Snapshot-committed all in-progress Phase 1 source, configs (package.json, tsconfig, esbuild, vitest, tailwind, manifest, versions), tests, scripts, .github/, plus Phase 1.5 artifacts (docs/plans + docs/specs/stratamd-phase-1-5-quality-layer/), so the factory branches off a known clean baseline.
