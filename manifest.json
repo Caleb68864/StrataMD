@@ -1,0 +1,9 @@
+{
+  "id": "stratamd",
+  "name": "StrataMD",
+  "version": "0.1.0",
+  "minAppVersion": "1.6.0",
+  "description": "A knowledge intake and triage cockpit for RSS and media inside Obsidian.",
+  "author": "Caleb Bennett",
+  "isDesktopOnly": false
+}

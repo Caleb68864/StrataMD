@@ -19,4 +19,11 @@ Each entry follows this shape:
 - Fix: Installed pre-commit decision-log enforcement per forge-init Step 6g with greenfield Node/TS classification. Hook lives at scripts/hooks/pre-commit; `git config core.hooksPath scripts/hooks` activates it. The hook's literal sentinel token was renamed in this file to a fenced equivalent so the explanatory header does not self-block the install commit.
 - Surfaces: scripts/hooks/pre-commit, docs/decisions.md, harness/init.sh, CLAUDE.md, forge-project.json
 - Watch: Commits using `--no-verify` will escape the log. SS-01 will be the first real code commit and must produce a real entry here.
+- Commit: 46a636a
+
+## 2026-05-08 — Snapshot Phase 1 in-progress build + Phase 1.5 design/spec/phase specs
+- Symptom: Working tree had ~13 of 17 Phase 1 sub-specs partially built (src/services, src/components, src/models, src/store, etc.) plus Phase 1.5 design + master spec + 6 phase specs + redteam-report — none committed since 46a636a. About to launch /forge-dark-factory which would mix this work into the factory's auto-created feature branch.
+- Fix: Snapshot-committed all in-progress Phase 1 source, configs (package.json, tsconfig, esbuild, vitest, tailwind, manifest, versions), tests, scripts, .github/, plus Phase 1.5 artifacts (docs/plans + docs/specs/stratamd-phase-1-5-quality-layer/), so the factory branches off a known clean baseline.
+- Surfaces: src/, __tests__/, scripts/, .github/, package.json, tsconfig.json, esbuild.config.mjs, vitest.config.ts, tailwind.config.ts, manifest.json, versions.json, main.css, build-and-install.bat, docs/plans/2026-05-08-phase-1-5-quality-layer-design.md, docs/specs/2026-05-08-stratamd-phase-1-5-quality-layer.md, docs/specs/stratamd-phase-1-5-quality-layer/
+- Watch: This is a pre-factory snapshot commit, NOT a verified Phase 1 milestone. Tests have not been run end-to-end against this snapshot. The factory invocation that follows may detect overlapping files in SS-01 (manifest.json, tsconfig, etc.) and adapt; if it tries to overwrite, manual reconciliation will be needed.
 - Commit: (populated at commit time)
