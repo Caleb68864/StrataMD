@@ -56,7 +56,8 @@ pnpm-debug.log*
 # Claude / agent tooling
 .claude/
 .claude-terminal/
-forge-project.json
+# forge-project.json is tracked — it carries the project's build/test/lint config
+# and decision-log filter_stack. No secrets live here.
 
 # Forge project vault (local-only — drafts, history, daily notes)
 /vault/

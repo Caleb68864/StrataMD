@@ -1,0 +1,72 @@
+{
+  "project_name": "StrataMD",
+  "name": "StrataMD",
+  "repo_root": ".",
+  "project_vault": "vault",
+  "build_command": "npm run build",
+  "test_command": "npm test",
+  "frontend_build": null,
+  "frontend_test": null,
+  "start_command": null,
+  "dev_server": "npm run dev",
+  "migrate_command": null,
+  "lint_command": "npm run lint",
+  "typecheck_command": "npm run typecheck",
+  "bundle_check_command": "node scripts/check-bundle-size.mjs main.js",
+  "spec_output_dir": "docs/specs",
+  "notes_dir": "docs/notes",
+  "factory_aware_config": {
+    "frontend_test_runner": "vitest",
+    "frontend_build_tool": "esbuild",
+    "ts_strict_flags": [
+      "strict",
+      "noUncheckedIndexedAccess",
+      "exactOptionalPropertyTypes"
+    ],
+    "tailwind_major": 4,
+    "is_esm_package": true,
+    "dotnet_test_framework": null,
+    "csharp_nullable_enabled": false,
+    "python_runtime": null,
+    "has_conda_env": false,
+    "notes": [
+      "Greenfield — package.json lands in SS-01 (project bootstrap). Build/test/lint/typecheck commands above will become live after SS-01 commits.",
+      "ESLint rules: fetch() and console.* are banned outside src/services/Logger.ts.",
+      "Static imports of @mozilla/readability and linkedom are banned (must be dynamic) — these libs are lazy-loaded.",
+      "Tailwind major version (3 vs 4) decided at SS-01; default in the spec is v3 with prefix='smd-'. Update this field if v4 is chosen.",
+      "Bundle size CI gate: main.js ≤1.5MB minified, ≤400KB gzipped, enforced via scripts/check-bundle-size.mjs."
+    ]
+  },
+  "runtime_paths": [
+    "C:/Program Files/nodejs",
+    "C:/Users/CalebBennett/AppData/Roaming/npm"
+  ],
+  "reference_sources": {},
+  "infrastructure": {
+    "hosting": null,
+    "database": null,
+    "secrets": null,
+    "network": null,
+    "additional_services": null,
+    "_note": "Not applicable — StrataMD is an Obsidian community plugin that runs inside the user's local Obsidian app. Storage is plugin-local (data.json + IndexedDB); no server, no remote DB, no API keys, no environment variables."
+  },
+  "dev_env_prerequisites": [
+    {
+      "name": "Node.js LTS",
+      "description": "Node.js 20+ required to run npm install / build / tests.",
+      "check_command": "node --version | grep -qE 'v(20|22|24)' && echo 'PASS: Node LTS detected' || (echo 'FAIL: Node 20+ required' && exit 1)",
+      "fix_command": "Install Node.js LTS from https://nodejs.org",
+      "severity": "BLOCKING"
+    },
+    {
+      "name": "Obsidian (for smoke testing)",
+      "description": "Obsidian desktop app installed locally for manual smoke tests during SS-12 / SS-17.",
+      "check_command": "echo 'Obsidian presence is a manual check — verify the app is installed before running SS-12 visual smoke test.'",
+      "severity": "WARNING"
+    }
+  ],
+  "well_known_blockers": [],
+  "decision_log": {
+    "filter_stack": "greenfield"
+  }
+}
