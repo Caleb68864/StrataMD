@@ -1,0 +1,179 @@
+{
+  "version": 1,
+  "spec_slug": "stratamd-phase-1-rss-reader",
+  "greenfield": true,
+  "_note": "Greenfield project — content_sha256 fields are empty until SS-01 bootstrap creates the files. forge-run should populate sha256 after each sub-spec completes against the actual file contents.",
+  "contracts": [
+    {
+      "owner_sub_spec": 2,
+      "consumer_sub_specs": [3, 4, 5, 6, 7, 8, 10, 11],
+      "name": "FeedSource",
+      "kind": "type",
+      "signature": "type FeedSource = { id: string; url: string; displayName: string; sourceType: 'rss'|'atom'|'youtube'|'website'|'mock'; category?: string; tags: string[]; refreshIntervalMin: number; health: Health; notifyOnNew: boolean; pruneAfterDays?: number }",
+      "file_path": "src/models/FeedSource.ts",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 2,
+      "consumer_sub_specs": [3, 4, 5, 6, 9, 10, 13, 14],
+      "name": "FeedItem",
+      "kind": "type",
+      "signature": "type FeedItem = { id: string; feedId: string; sourceType: string; title: string; url: string; author?: string; published: number; summary?: string; thumbnailUrl?: string; mediaType: 'article'|'video'|'bookmark'; durationSec?: number }",
+      "file_path": "src/models/FeedItem.ts",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 2,
+      "consumer_sub_specs": [3, 4],
+      "name": "UserState",
+      "kind": "type",
+      "signature": "type UserState = { readIds: Set<string>; savedIds: Set<string>; starredIds: Set<string>; ignoredIds: Set<string>; scrollPositions: Record<string, number> }",
+      "file_path": "src/models/UserState.ts",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 2,
+      "consumer_sub_specs": [5, 6, 7],
+      "name": "ISourceAdapter",
+      "kind": "interface",
+      "signature": "interface ISourceAdapter { name: string; detect(url: string): boolean; resolve(url: string): Promise<FeedSource | FeedSource[]>; fetch(source: FeedSource): Promise<unknown>; parse(raw: unknown): FeedItem[] }",
+      "file_path": "src/services/adapters/ISourceAdapter.ts",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 2,
+      "consumer_sub_specs": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+      "name": "Logger",
+      "kind": "type",
+      "signature": "interface Logger { error(msg: string, ...args: unknown[]): void; warn(msg: string, ...args: unknown[]): void; info(msg: string, ...args: unknown[]): void; debug(msg: string, ...args: unknown[]): void }",
+      "file_path": "src/services/Logger.ts",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 3,
+      "consumer_sub_specs": [4, 17],
+      "name": "StateService",
+      "kind": "type",
+      "signature": "interface StateService { load(): Promise<PersistedState>; save(patch: Partial<PersistedState>): void; flush(): void }",
+      "file_path": "src/services/StateService.ts",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 3,
+      "consumer_sub_specs": [8, 9, 17],
+      "name": "CacheService",
+      "kind": "type",
+      "signature": "interface CacheService { open(): Promise<void>; close(): void; putItems(items: FeedItem[]): Promise<void>; getItem(itemId: string): Promise<FeedItem | undefined>; getItemsByFeed(feedId: string): Promise<FeedItem[]>; pruneOldItems(saved: Set<string>, starred: Set<string>, days: number): Promise<number>; putExtractedArticle(itemId: string, html: string): Promise<void>; getExtractedArticle(itemId: string): Promise<string | undefined> }",
+      "file_path": "src/services/CacheService.ts",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 4,
+      "consumer_sub_specs": [8, 11, 12, 13, 14, 15, 16, 17],
+      "name": "useStrataStore",
+      "kind": "function",
+      "signature": "function useStrataStore<T>(selector: (state: StoreState & StoreActions) => T): T",
+      "file_path": "src/store/useStrataStore.ts",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 6,
+      "consumer_sub_specs": [],
+      "name": "IYouTubePlanB",
+      "kind": "interface",
+      "signature": "interface IYouTubePlanB { resolveChannelItems(channelId: string): Promise<FeedItem[]> }",
+      "file_path": "src/services/adapters/youtube/IYouTubePlanB.ts",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 7,
+      "consumer_sub_specs": [4, 11, 17],
+      "name": "FeedDiscoveryService.resolve",
+      "kind": "function",
+      "signature": "function resolve(url: string): Promise<FeedSource | FeedSource[]>",
+      "file_path": "src/services/FeedDiscoveryService.ts",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 8,
+      "consumer_sub_specs": [4, 11, 16, 17],
+      "name": "FeedFetchScheduler",
+      "kind": "type",
+      "signature": "interface FeedFetchScheduler { start(): void; stop(): void; refreshNow(feedId: string): Promise<void>; on(event: 'RefreshComplete'|'RefreshFailed'|'BatchedRefreshComplete', handler: (e: RefreshEvent) => void): void }",
+      "file_path": "src/services/FeedFetchScheduler.ts",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 9,
+      "consumer_sub_specs": [14],
+      "name": "ArticlePreviewService.extract",
+      "kind": "function",
+      "signature": "function extract(item: FeedItem, signal?: AbortSignal): Promise<PreviewResult>; type PreviewResult = { source: 'readability'|'content-encoded'|'summary'|'none'; html: string; title?: string }",
+      "file_path": "src/services/ArticlePreviewService.ts",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 10,
+      "consumer_sub_specs": [14, 15],
+      "name": "NoteService.save",
+      "kind": "function",
+      "signature": "function save(item: FeedItem, extractedHtml?: string): Promise<{ path: string }>",
+      "file_path": "src/services/NoteService.ts",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 11,
+      "consumer_sub_specs": [16, 17],
+      "name": "OPMLService.importFromString",
+      "kind": "function",
+      "signature": "function importFromString(xml: string, options?: { defaultCategory?: string }): Promise<ImportSummary>; type ImportSummary = { added: FeedSource[]; duplicates: string[]; errors: { url: string; reason: string }[] }",
+      "file_path": "src/services/OPMLService.ts",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 12,
+      "consumer_sub_specs": [13, 14, 15, 17],
+      "name": "DashboardRoot",
+      "kind": "type",
+      "signature": "React component <DashboardRoot/> mounted by StrataDashboardView; provides PortalRoot ref via context for Radix primitives",
+      "file_path": "src/components/DashboardRoot.tsx",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 13,
+      "consumer_sub_specs": [12],
+      "name": "ItemCard",
+      "kind": "type",
+      "signature": "React component <ItemCard itemId={string}/> memoized; subscribes via selectItemById + readIds.has(itemId)",
+      "file_path": "src/components/ItemCard.tsx",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 14,
+      "consumer_sub_specs": [12],
+      "name": "PreviewPane routing components",
+      "kind": "type",
+      "signature": "<ArticlePreview itemId={string}/>, <YouTubeEmbed itemId={string}/>, <BookmarkPreview itemId={string}/>",
+      "file_path": "src/components/preview/",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 15,
+      "consumer_sub_specs": [12],
+      "name": "useKeyboardShortcuts",
+      "kind": "function",
+      "signature": "function useKeyboardShortcuts(rootRef: RefObject<HTMLElement>): void",
+      "file_path": "src/hooks/useKeyboardShortcuts.ts",
+      "content_sha256": ""
+    },
+    {
+      "owner_sub_spec": 16,
+      "consumer_sub_specs": [8, 12, 17],
+      "name": "Notifications.notifyNewItems",
+      "kind": "function",
+      "signature": "function notifyNewItems(feed: FeedSource, count: number): void",
+      "file_path": "src/services/Notifications.ts",
+      "content_sha256": ""
+    }
+  ]
+}

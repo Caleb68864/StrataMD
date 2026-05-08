@@ -58,9 +58,9 @@ pnpm-debug.log*
 .claude-terminal/
 forge-project.json
 
-# Internal docs (specs, plans, brainstorms — kept local in personal vault)
-/docs/
-/docs/**
+# Forge project vault (local-only — drafts, history, daily notes)
+/vault/
+/vault/**
 
 # Misc
 *.tgz
