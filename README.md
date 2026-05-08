@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" alt="StrataMD logo" width="256" height="256" />
+</p>
+
 # StrataMD
 
 A modern knowledge intake and triage cockpit for [Obsidian](https://obsidian.md). Full-tab RSS, Atom, and YouTube reader with autodiscovery, OPML import, Readability-based article previews, embedded video, intentional note creation, and Newsboat/Vim-inspired keyboard navigation.
